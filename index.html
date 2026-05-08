@@ -5,121 +5,407 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Benefit Headline Creator</title>
-  <meta name="description" content="A free tool that helps rewrite vague website headlines into clear action-benefit headlines." />
+  <meta name="description" content="A free copywriting tool that helps rewrite vague headlines into clear action-benefit headlines." />
 
   <style>
     :root {
-      --bg: #07111f;
-      --panel: #101827;
-      --panel-2: #162033;
-      --border: #253449;
-      --text: #eef5ff;
-      --muted: #9fb0c8;
+      --bg: #070b16;
+      --bg-soft: #0b1020;
+      --panel: #111827;
+      --panel-2: #151f33;
+      --panel-3: #0f172a;
+      --border: #24324a;
+      --text: #eef4ff;
+      --muted: #9fb0c7;
+      --muted-2: #c4d1e4;
       --blue: #3b82f6;
       --green: #22c55e;
+      --cyan: #06b6d4;
+      --purple: #8b5cf6;
       --yellow: #facc15;
-      --shadow: rgba(0, 0, 0, 0.35);
+      --shadow: rgba(0, 0, 0, 0.42);
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --radius-sm: 12px;
     }
 
     * {
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      margin: 0;
       font-family: Arial, sans-serif;
       background:
-        radial-gradient(circle at top left, rgba(59,130,246,0.16), transparent 32%),
-        radial-gradient(circle at top right, rgba(34,197,94,0.13), transparent 30%),
+        radial-gradient(circle at top left, rgba(59, 130, 246, 0.18), transparent 30%),
+        radial-gradient(circle at top right, rgba(34, 197, 94, 0.14), transparent 28%),
+        radial-gradient(circle at 50% 20%, rgba(139, 92, 246, 0.10), transparent 35%),
         var(--bg);
       color: var(--text);
+      margin: 0;
+      padding: 0;
       line-height: 1.6;
     }
 
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
     .container {
-      max-width: 1100px;
+      max-width: 1160px;
       margin: 0 auto;
-      padding: 42px 20px 70px;
+      padding: 0 20px;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+      background: rgba(7, 11, 22, 0.72);
+      border-bottom: 1px solid rgba(36, 50, 74, 0.72);
+    }
+
+    .nav-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      box-shadow: 0 10px 24px rgba(59, 130, 246, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: white;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-cta {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.35);
+      color: #cfe1ff;
+      font-weight: 700;
     }
 
     .hero {
+      padding: 80px 0 44px;
+    }
+
+    .hero-grid {
       display: grid;
       grid-template-columns: 1.1fr 0.9fr;
       gap: 28px;
       align-items: center;
-      margin-bottom: 34px;
     }
 
-    .badge {
-      display: inline-block;
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       padding: 8px 12px;
       border-radius: 999px;
-      background: rgba(34,197,94,0.12);
-      border: 1px solid rgba(34,197,94,0.28);
-      color: #a7f3d0;
-      font-weight: 700;
+      background: rgba(34, 197, 94, 0.10);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      color: #9ff0be;
       font-size: 14px;
-      margin-bottom: 16px;
+      font-weight: 700;
+      margin-bottom: 18px;
     }
 
     h1 {
-      font-size: clamp(40px, 6vw, 66px);
-      line-height: 1;
-      letter-spacing: -0.05em;
-      margin: 0 0 18px;
+      font-size: clamp(42px, 6vw, 68px);
+      line-height: 0.98;
+      letter-spacing: -0.06em;
+      margin: 0 0 20px;
     }
 
-    .hero p {
-      color: #c7d5ea;
-      font-size: 18px;
+    .hero-text {
+      color: var(--muted-2);
+      font-size: 19px;
       max-width: 680px;
+      margin-bottom: 26px;
     }
 
-    .hero-card,
-    .tool-card,
-    .output-card,
-    .info-card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)), var(--panel);
-      border: 1px solid rgba(255,255,255,0.09);
-      border-radius: 26px;
-      padding: 26px;
-      box-shadow: 0 18px 48px var(--shadow);
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 26px;
     }
 
-    .hero-card h2 {
-      margin-top: 0;
-      font-size: 24px;
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 18px;
+      border-radius: 14px;
+      border: 0;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease, border 0.15s ease;
     }
 
-    .formula {
+    .btn:hover {
+      transform: translateY(-1px);
+      opacity: 0.96;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      color: white;
+      box-shadow: 0 14px 30px rgba(59, 130, 246, 0.25);
+    }
+
+    .btn-secondary {
+      background: rgba(17, 24, 39, 0.85);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .trust-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .trust-pill {
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .preview-card {
+      position: relative;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.025)),
+        var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: 0 24px 60px var(--shadow);
+      overflow: hidden;
+    }
+
+    .preview-card::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      background: radial-gradient(circle at top right, rgba(34, 197, 94, 0.25), transparent 34%);
+      pointer-events: none;
+    }
+
+    .preview-top {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 7px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #475569;
+    }
+
+    .dot:nth-child(1) { background: #ef4444; }
+    .dot:nth-child(2) { background: #f59e0b; }
+    .dot:nth-child(3) { background: #22c55e; }
+
+    .score-badge {
+      color: #bff7d1;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(34, 197, 94, 0.11);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+    }
+
+    .mock-line {
+      position: relative;
+      height: 12px;
+      border-radius: 99px;
+      background: #263550;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+
+    .mock-line span {
+      display: block;
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--blue), var(--green));
+    }
+
+    .mock-list {
+      position: relative;
+      margin-top: 22px;
       display: grid;
       gap: 12px;
-      margin-top: 20px;
     }
 
-    .formula-step {
+    .mock-item {
       padding: 14px;
       border-radius: 16px;
-      background: #0d1524;
-      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
     }
 
-    .formula-step strong {
-      color: var(--green);
+    .mock-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
+      background: rgba(59, 130, 246, 0.18);
+      color: #bfdbfe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
     }
 
-    .grid {
+    .mock-item strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+
+    .mock-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .section {
+      padding: 34px 0;
+    }
+
+    .section-title {
+      font-size: clamp(30px, 4vw, 44px);
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+      margin: 0 0 12px;
+    }
+
+    .section-subtitle {
+      color: var(--muted-2);
+      font-size: 17px;
+      max-width: 720px;
+      margin: 0 0 26px;
+    }
+
+    .feature-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 22px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .feature-card {
+      background: rgba(17, 24, 39, 0.74);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      padding: 22px;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.24);
+    }
+
+    .feature-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: rgba(59, 130, 246, 0.15);
+      color: #bfdbfe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+      font-size: 20px;
+    }
+
+    .feature-card h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+
+    .feature-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .tool-wrap {
+      display: grid;
+      grid-template-columns: 1fr 0.95fr;
+      gap: 18px;
       align-items: start;
     }
 
+    .panel {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)),
+        var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: var(--radius-lg);
+      padding: 26px;
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.30);
+    }
+
     label {
+      font-weight: 800;
       display: block;
-      margin: 16px 0 6px;
-      font-weight: 700;
-      color: #e6eefc;
+      margin-top: 16px;
+      margin-bottom: 7px;
+      color: #e5eefc;
+      font-size: 14px;
     }
 
     input,
@@ -127,210 +413,353 @@
     select {
       width: 100%;
       padding: 13px 14px;
-      border-radius: 13px;
       border: 1px solid var(--border);
-      background: var(--panel-2);
-      color: var(--text);
+      border-radius: var(--radius-sm);
       font-size: 15px;
+      background: #0d1424;
+      color: var(--text);
       outline: none;
-    }
-
-    textarea {
-      min-height: 82px;
-      resize: vertical;
     }
 
     input::placeholder,
     textarea::placeholder {
-      color: #73839b;
+      color: #72839e;
     }
 
     input:focus,
     textarea:focus,
     select:focus {
       border-color: var(--blue);
-      box-shadow: 0 0 0 4px rgba(59,130,246,0.15);
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+    }
+
+    textarea {
+      min-height: 88px;
+      resize: vertical;
     }
 
     .button-row {
       display: flex;
-      flex-wrap: wrap;
       gap: 12px;
-      margin-top: 22px;
-    }
-
-    button {
-      border: none;
-      cursor: pointer;
-      padding: 14px 18px;
-      border-radius: 14px;
-      font-weight: 800;
-      font-size: 15px;
-      color: white;
-      background: linear-gradient(135deg, var(--blue), var(--green));
-      transition: 0.15s ease;
-    }
-
-    button:hover {
-      transform: translateY(-1px);
-      opacity: 0.96;
-    }
-
-    .secondary {
-      background: #1c2a40;
-      border: 1px solid var(--border);
+      flex-wrap: wrap;
+      margin-top: 20px;
     }
 
     .output {
-      white-space: pre-wrap;
+      min-height: 560px;
       background: #08111f;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 20px;
+      padding: 22px;
+      white-space: pre-wrap;
       color: #dbeafe;
-      min-height: 420px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      overflow-x: auto;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
     }
 
-    .note {
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .step {
+      background: rgba(17, 24, 39, 0.70);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      padding: 20px;
+    }
+
+    .step-number {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(59,130,246,0.9), rgba(34,197,94,0.9));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+
+    .step h3 {
+      margin: 0 0 8px;
+      font-size: 17px;
+    }
+
+    .step p {
+      margin: 0;
       color: var(--muted);
       font-size: 14px;
-      margin-top: 14px;
-    }
-
-    .info {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-top: 26px;
-    }
-
-    .info-card h3 {
-      margin-top: 0;
-      color: #ffffff;
-    }
-
-    .info-card p {
-      color: var(--muted);
-      margin-bottom: 0;
     }
 
     .footer {
-      margin-top: 42px;
-      text-align: center;
+      padding: 34px 0 46px;
       color: var(--muted);
+      text-align: center;
       font-size: 14px;
     }
 
+    .small-note {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 14px;
+    }
+
     @media (max-width: 900px) {
-      .hero,
-      .grid,
-      .info {
+      .hero-grid,
+      .tool-wrap {
         grid-template-columns: 1fr;
       }
 
+      .feature-grid,
+      .steps {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
       .output {
-        min-height: 260px;
+        min-height: 360px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .feature-grid,
+      .steps {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 52px 0 28px;
+      }
+
+      .panel,
+      .preview-card {
+        padding: 20px;
+      }
+
+      .btn {
+        width: 100%;
       }
     }
   </style>
 </head>
 
 <body>
-  <main class="container">
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="#" class="brand">
+        <span class="brand-mark">↗</span>
+        <span>Headline Creator</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#tool">Tool</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#tool" class="nav-cta">Try the tool</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
     <section class="hero">
-      <div>
-        <span class="badge">Free copywriting tool</span>
-        <h1>Benefit Headline Creator</h1>
-        <p>
-          Rewrite vague website headlines into clear action-benefit headlines.
-          Tell visitors what they do and what they get in one sentence.
-        </p>
-      </div>
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">Free copywriting tool</div>
+          <h1>Write clearer headlines with action and benefit.</h1>
+          <p class="hero-text">
+            Turn vague website headlines into simple above-the-fold copy that tells visitors
+            what they do, what they get, and why it matters.
+          </p>
 
-      <div class="hero-card">
-        <h2>The simple formula</h2>
-        <div class="formula">
-          <div class="formula-step">
-            <strong>Action:</strong> What does the visitor do?
+          <div class="hero-actions">
+            <a href="#tool" class="btn btn-primary">Create headlines</a>
+            <a href="#how-it-works" class="btn btn-secondary">See how it works</a>
           </div>
-          <div class="formula-step">
-            <strong>Benefit:</strong> What result do they get?
+
+          <div class="trust-row">
+            <span class="trust-pill">No login required</span>
+            <span class="trust-pill">No paid tool needed</span>
+            <span class="trust-pill">Copy-paste output</span>
           </div>
-          <div class="formula-step">
-            <strong>Specificity:</strong> Add timeframe, proof, number, or friction removed.
+        </div>
+
+        <div class="preview-card">
+          <div class="preview-top">
+            <div class="window-dots">
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+            </div>
+            <span class="score-badge">Headline ready</span>
+          </div>
+
+          <div class="mock-line"><span style="width: 92%;"></span></div>
+          <div class="mock-line"><span style="width: 74%;"></span></div>
+          <div class="mock-line"><span style="width: 58%;"></span></div>
+
+          <div class="mock-list">
+            <div class="mock-item">
+              <div class="mock-icon">1</div>
+              <div>
+                <strong>Start with the action</strong>
+                <p>What should the visitor do on the page?</p>
+              </div>
+            </div>
+
+            <div class="mock-item">
+              <div class="mock-icon">2</div>
+              <div>
+                <strong>Add the benefit</strong>
+                <p>What result do they get after taking action?</p>
+              </div>
+            </div>
+
+            <div class="mock-item">
+              <div class="mock-icon">3</div>
+              <div>
+                <strong>Make it specific</strong>
+                <p>Add proof, timeframe, number, or friction removed.</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="grid">
-      <div class="tool-card">
-        <h2>Create your headline</h2>
-
-        <label for="oldHeadline">Current headline</label>
-        <textarea id="oldHeadline" placeholder="Example: Press releases reinvented. Greater distribution, half the price."></textarea>
-
-        <label for="audience">Who is it for?</label>
-        <input id="audience" placeholder="Example: SaaS founders, ecommerce brands, senior families" />
-
-        <label for="product">What do you sell or offer?</label>
-        <input id="product" placeholder="Example: PR distribution service, flower subscription, home selling service" />
-
-        <label for="action">What does the visitor do?</label>
-        <input id="action" placeholder="Example: get content published, receive flowers, sell your home" />
-
-        <label for="benefit">What do they get?</label>
-        <input id="benefit" placeholder="Example: more sales, fresh flowers monthly, a faster stress-free sale" />
-
-        <label for="proof">Specific proof, number, or timeframe</label>
-        <input id="proof" placeholder="Example: 300+ platforms, every month, in days not months" />
-
-        <label for="friction">What friction do you remove?</label>
-        <input id="friction" placeholder="Example: no manual outreach, no repairs, no cleanup, no long contracts" />
-
-        <label for="tone">Tone</label>
-        <select id="tone">
-          <option value="clear">Clear and direct</option>
-          <option value="bold">Bold</option>
-          <option value="calm">Calm and reassuring</option>
-          <option value="premium">Premium</option>
-        </select>
-
-        <div class="button-row">
-          <button onclick="generateHeadlines()">Generate headlines</button>
-          <button class="secondary" onclick="copyOutput()">Copy output</button>
-          <button class="secondary" onclick="clearForm()">Clear</button>
-        </div>
-
-        <p class="note">
-          Tip: A strong headline should answer “what does this company do?” and “what do I get?” quickly.
+    <section id="features" class="section">
+      <div class="container">
+        <h2 class="section-title">A simple formula for clearer landing page headlines</h2>
+        <p class="section-subtitle">
+          This free tool helps you move from clever but vague copy to direct headlines that explain the offer quickly.
         </p>
-      </div>
 
-      <div class="output-card">
-        <h2>Generated headlines</h2>
-        <div id="output" class="output">Your headline options will appear here.</div>
-      </div>
-    </section>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="feature-icon">→</div>
+            <h3>Action first</h3>
+            <p>Start with the thing the visitor can do: find leads, sell a home, automate work, or get published.</p>
+          </div>
 
-    <section class="info">
-      <div class="info-card">
-        <h3>Use action words</h3>
-        <p>Start with what the visitor can do: get, build, sell, receive, find, launch, automate, or grow.</p>
-      </div>
+          <div class="feature-card">
+            <div class="feature-icon">✓</div>
+            <h3>Benefit next</h3>
+            <p>Show the outcome clearly so visitors understand what they get before they scroll.</p>
+          </div>
 
-      <div class="info-card">
-        <h3>Make the result clear</h3>
-        <p>Avoid clever but vague copy. Show the concrete outcome the visitor gets.</p>
-      </div>
-
-      <div class="info-card">
-        <h3>Add specifics</h3>
-        <p>Numbers, timeframes, and removed friction make the headline easier to understand.</p>
+          <div class="feature-card">
+            <div class="feature-icon">#</div>
+            <h3>Specific proof</h3>
+            <p>Add numbers, timeframes, or removed friction to make the headline easier to believe.</p>
+          </div>
+        </div>
       </div>
     </section>
 
-    <p class="footer">Copyright © 2026 Ed Umbao. All rights reserved.</p>
+    <section id="tool" class="section">
+      <div class="container">
+        <h2 class="section-title">Create action-benefit headlines</h2>
+        <p class="section-subtitle">
+          Fill in the fields below. Use short phrases instead of full sentences for cleaner headline options.
+        </p>
+
+        <div class="tool-wrap">
+          <div class="panel">
+            <label for="oldHeadline">Current headline</label>
+            <textarea id="oldHeadline" placeholder="Example: How to find closed businesses for lead generation"></textarea>
+
+            <label for="audience">Who is it for?</label>
+            <input id="audience" placeholder="Example: SaaS founders and lead generation specialists" />
+
+            <label for="product">What do you sell or offer?</label>
+            <input id="product" placeholder="Example: B2B lead database, PR distribution service, flower subscription" />
+
+            <label for="action">What does the visitor do?</label>
+            <input id="action" placeholder="Use a short verb phrase. Example: Find closed businesses, get content published, sell your home" />
+
+            <label for="benefit">What do they get?</label>
+            <input id="benefit" placeholder="Use a short result phrase. Example: get verified leads, grow sales, save research time" />
+
+            <label for="proof">Specific proof, number, or timeframe</label>
+            <input id="proof" placeholder="Example: 200M+ business records, 300+ platforms, in days not months" />
+
+            <label for="friction">What friction do you remove?</label>
+            <input id="friction" placeholder="Example: manual copy-paste from Google Maps, repairs, cleanup, long contracts" />
+
+            <label for="tone">Tone</label>
+            <select id="tone">
+              <option value="clear">Clear and direct</option>
+              <option value="bold">Bold</option>
+              <option value="calm">Calm and reassuring</option>
+              <option value="premium">Premium</option>
+            </select>
+
+            <div class="button-row">
+              <button class="btn btn-primary" onclick="generateHeadlines()">Generate headlines</button>
+              <button class="btn btn-secondary" onclick="copyOutput()">Copy output</button>
+              <button class="btn btn-secondary" onclick="loadExample()">Load example</button>
+              <button class="btn btn-secondary" onclick="clearForm()">Clear</button>
+            </div>
+
+            <p class="small-note">
+              Tip: A strong headline should answer “what does this company do?” and “what do I get?” in one breath.
+            </p>
+          </div>
+
+          <div class="panel">
+            <h3 style="margin-top: 0;">Generated headlines</h3>
+            <div id="output" class="output">Your headline options will appear here.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="how-it-works" class="section">
+      <div class="container">
+        <h2 class="section-title">How it works</h2>
+        <p class="section-subtitle">
+          Use this tool as a fast headline rewrite step before writing the rest of your landing page.
+        </p>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <h3>Paste the old headline</h3>
+            <p>Add the current headline so you can compare the before and after.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-number">2</div>
+            <h3>Add action</h3>
+            <p>Use a short verb phrase that says what the visitor should do.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-number">3</div>
+            <h3>Add benefit</h3>
+            <p>Describe the result, outcome, or improvement they get.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-number">4</div>
+            <h3>Copy the best option</h3>
+            <p>Use the generated headlines as a starting point for testing.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        Copyright © 2026 Ed Umbao. All rights reserved.
+      </div>
+    </footer>
   </main>
 
   <script>
@@ -339,17 +768,55 @@
     }
 
     function clean(text) {
-      return text.replace(/\.$/, "");
+      return text
+        .replace(/\s+/g, " ")
+        .replace(/\.$/, "")
+        .trim();
+    }
+
+    function capitalize(text) {
+      if (!text) return "";
+      return text.charAt(0).toUpperCase() + text.slice(1);
+    }
+
+    function stripLeadingGet(text) {
+      return text.replace(/^get\s+/i, "");
+    }
+
+    function stripLeadingNo(text) {
+      return text
+        .replace(/^no\s+/i, "")
+        .replace(/^without\s+/i, "")
+        .trim();
+    }
+
+    function simplifyAction(text) {
+      return clean(text)
+        .replace(/^the visitor should\s+/i, "")
+        .replace(/^visitors should\s+/i, "")
+        .replace(/^users should\s+/i, "")
+        .replace(/^use the web app to\s+/i, "")
+        .replace(/^use the app to\s+/i, "")
+        .replace(/^use the tool to\s+/i, "")
+        .replace(/^use .*? to\s+/i, "")
+        .trim();
+    }
+
+    function simplifyBenefit(text) {
+      return clean(text)
+        .replace(/^to\s+/i, "")
+        .replace(/^more sales with\s+/i, "get more sales from ")
+        .trim();
     }
 
     function generateHeadlines() {
-      const oldHeadline = getValue("oldHeadline");
+      const oldHeadline = clean(getValue("oldHeadline"));
       const audience = clean(getValue("audience"));
       const product = clean(getValue("product"));
-      const action = clean(getValue("action"));
-      const benefit = clean(getValue("benefit"));
+      const action = simplifyAction(getValue("action"));
+      const benefit = simplifyBenefit(getValue("benefit"));
       const proof = clean(getValue("proof"));
-      const friction = clean(getValue("friction"));
+      const friction = stripLeadingNo(clean(getValue("friction")));
       const tone = getValue("tone");
 
       if (!action || !benefit) {
@@ -357,22 +824,28 @@
         return;
       }
 
-      const proofPhrase = proof ? ` ${proof}` : "";
-      const frictionPhrase = friction ? ` No ${friction.replace(/^no\s+/i, "")}.` : "";
       const audiencePhrase = audience ? ` for ${audience}` : "";
       const productPhrase = product ? ` with ${product}` : "";
+      const proofPhrase = proof ? ` from ${proof}` : "";
+      const shortProof = proof ? ` ${proof}` : "";
+      const frictionPhrase = friction ? ` without ${friction}` : "";
+      const benefitNoGet = stripLeadingGet(benefit);
 
-      let toneNote = "";
+      let toneNote = "Use this when clarity matters more than clever wording.";
       if (tone === "bold") toneNote = "Use this when you want a stronger, more direct sales angle.";
       if (tone === "calm") toneNote = "Use this when the buyer needs trust, relief, or reassurance.";
       if (tone === "premium") toneNote = "Use this when the offer needs to feel higher-value and polished.";
-      if (tone === "clear") toneNote = "Use this when clarity matters more than clever wording.";
 
-      const headline1 = `${capitalize(action)}${productPhrase} and ${benefit}${proofPhrase}.`;
-      const headline2 = `${capitalize(action)}${proofPhrase} and ${benefit}.${frictionPhrase}`;
-      const headline3 = `${capitalize(action)}${audiencePhrase} so you can ${benefit}.`;
-      const headline4 = `${capitalize(action)}. ${capitalize(benefit)}${proofPhrase}.${frictionPhrase}`;
-      const headline5 = `${capitalize(action)}${audiencePhrase}. ${capitalize(benefit)} without the usual friction.`;
+      const headlineOptions = [
+        `${capitalize(action)} and ${benefit}.`,
+        `${capitalize(action)}${proofPhrase}${frictionPhrase}.`,
+        `${capitalize(action)}${audiencePhrase} and ${benefit}.`,
+        `${capitalize(action)}${productPhrase} so you can ${benefit}.`,
+        `${capitalize(action)} faster${frictionPhrase}.`,
+        `${capitalize(action)} that helps you ${benefitNoGet}.`,
+        `${capitalize(action)}${shortProof}. ${capitalize(benefit)}${frictionPhrase}.`,
+        `${capitalize(action)}${audiencePhrase}${frictionPhrase} and ${benefit}.`
+      ];
 
       const output = `Current headline:
 ${oldHeadline || "Not provided"}
@@ -384,15 +857,21 @@ Specificity: ${proof || "Add a number, timeframe, proof point, or friction remov
 
 Headline options:
 
-1. ${headline1}
+1. ${headlineOptions[0]}
 
-2. ${headline2}
+2. ${headlineOptions[1]}
 
-3. ${headline3}
+3. ${headlineOptions[2]}
 
-4. ${headline4}
+4. ${headlineOptions[3]}
 
-5. ${headline5}
+5. ${headlineOptions[4]}
+
+6. ${headlineOptions[5]}
+
+7. ${headlineOptions[6]}
+
+8. ${headlineOptions[7]}
 
 Quick review:
 - Can a first-time visitor understand what is being offered?
@@ -401,15 +880,13 @@ Quick review:
 - Is there a number, timeframe, proof point, or friction removed?
 - Is the wording clear enough to say out loud?
 
+Input tip:
+Use short phrases. Instead of “The visitor should use the web app to get leads,” write “Find closed businesses.”
+
 Tone note:
 ${toneNote}`;
 
       document.getElementById("output").textContent = output;
-    }
-
-    function capitalize(text) {
-      if (!text) return "";
-      return text.charAt(0).toUpperCase() + text.slice(1);
     }
 
     function copyOutput() {
@@ -422,6 +899,18 @@ ${toneNote}`;
 
       navigator.clipboard.writeText(output);
       alert("Headline options copied!");
+    }
+
+    function loadExample() {
+      document.getElementById("oldHeadline").value = "How to find closed businesses for lead generation";
+      document.getElementById("audience").value = "SaaS founders and lead generation specialists";
+      document.getElementById("product").value = "B2B lead database";
+      document.getElementById("action").value = "Find closed businesses";
+      document.getElementById("benefit").value = "get verified leads for outreach";
+      document.getElementById("proof").value = "200M+ business records";
+      document.getElementById("friction").value = "manual copy-paste from Google Maps and public sources";
+      document.getElementById("tone").value = "clear";
+      generateHeadlines();
     }
 
     function clearForm() {
