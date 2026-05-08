@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Benefit Headline Creator</title>
+  <meta name="description" content="A free tool that helps rewrite vague website headlines into clear action-benefit headlines." />
+
+  <style>
+    :root {
+      --bg: #07111f;
+      --panel: #101827;
+      --panel-2: #162033;
+      --border: #253449;
+      --text: #eef5ff;
+      --muted: #9fb0c8;
+      --blue: #3b82f6;
+      --green: #22c55e;
+      --yellow: #facc15;
+      --shadow: rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(59,130,246,0.16), transparent 32%),
+        radial-gradient(circle at top right, rgba(34,197,94,0.13), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 42px 20px 70px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 28px;
+      align-items: center;
+      margin-bottom: 34px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(34,197,94,0.12);
+      border: 1px solid rgba(34,197,94,0.28);
+      color: #a7f3d0;
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: clamp(40px, 6vw, 66px);
+      line-height: 1;
+      letter-spacing: -0.05em;
+      margin: 0 0 18px;
+    }
+
+    .hero p {
+      color: #c7d5ea;
+      font-size: 18px;
+      max-width: 680px;
+    }
+
+    .hero-card,
+    .tool-card,
+    .output-card,
+    .info-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)), var(--panel);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 26px;
+      padding: 26px;
+      box-shadow: 0 18px 48px var(--shadow);
+    }
+
+    .hero-card h2 {
+      margin-top: 0;
+      font-size: 24px;
+    }
+
+    .formula {
+      display: grid;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .formula-step {
+      padding: 14px;
+      border-radius: 16px;
+      background: #0d1524;
+      border: 1px solid var(--border);
+    }
+
+    .formula-step strong {
+      color: var(--green);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    label {
+      display: block;
+      margin: 16px 0 6px;
+      font-weight: 700;
+      color: #e6eefc;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 13px 14px;
+      border-radius: 13px;
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--text);
+      font-size: 15px;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 82px;
+      resize: vertical;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #73839b;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 4px rgba(59,130,246,0.15);
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      padding: 14px 18px;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 15px;
+      color: white;
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      transition: 0.15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      opacity: 0.96;
+    }
+
+    .secondary {
+      background: #1c2a40;
+      border: 1px solid var(--border);
+    }
+
+    .output {
+      white-space: pre-wrap;
+      background: #08111f;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      color: #dbeafe;
+      min-height: 420px;
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 14px;
+    }
+
+    .info {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 26px;
+    }
+
+    .info-card h3 {
+      margin-top: 0;
+      color: #ffffff;
+    }
+
+    .info-card p {
+      color: var(--muted);
+      margin-bottom: 0;
+    }
+
+    .footer {
+      margin-top: 42px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .hero,
+      .grid,
+      .info {
+        grid-template-columns: 1fr;
+      }
+
+      .output {
+        min-height: 260px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <section class="hero">
+      <div>
+        <span class="badge">Free copywriting tool</span>
+        <h1>Benefit Headline Creator</h1>
+        <p>
+          Rewrite vague website headlines into clear action-benefit headlines.
+          Tell visitors what they do and what they get in one sentence.
+        </p>
+      </div>
+
+      <div class="hero-card">
+        <h2>The simple formula</h2>
+        <div class="formula">
+          <div class="formula-step">
+            <strong>Action:</strong> What does the visitor do?
+          </div>
+          <div class="formula-step">
+            <strong>Benefit:</strong> What result do they get?
+          </div>
+          <div class="formula-step">
+            <strong>Specificity:</strong> Add timeframe, proof, number, or friction removed.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="tool-card">
+        <h2>Create your headline</h2>
+
+        <label for="oldHeadline">Current headline</label>
+        <textarea id="oldHeadline" placeholder="Example: Press releases reinvented. Greater distribution, half the price."></textarea>
+
+        <label for="audience">Who is it for?</label>
+        <input id="audience" placeholder="Example: SaaS founders, ecommerce brands, senior families" />
+
+        <label for="product">What do you sell or offer?</label>
+        <input id="product" placeholder="Example: PR distribution service, flower subscription, home selling service" />
+
+        <label for="action">What does the visitor do?</label>
+        <input id="action" placeholder="Example: get content published, receive flowers, sell your home" />
+
+        <label for="benefit">What do they get?</label>
+        <input id="benefit" placeholder="Example: more sales, fresh flowers monthly, a faster stress-free sale" />
+
+        <label for="proof">Specific proof, number, or timeframe</label>
+        <input id="proof" placeholder="Example: 300+ platforms, every month, in days not months" />
+
+        <label for="friction">What friction do you remove?</label>
+        <input id="friction" placeholder="Example: no manual outreach, no repairs, no cleanup, no long contracts" />
+
+        <label for="tone">Tone</label>
+        <select id="tone">
+          <option value="clear">Clear and direct</option>
+          <option value="bold">Bold</option>
+          <option value="calm">Calm and reassuring</option>
+          <option value="premium">Premium</option>
+        </select>
+
+        <div class="button-row">
+          <button onclick="generateHeadlines()">Generate headlines</button>
+          <button class="secondary" onclick="copyOutput()">Copy output</button>
+          <button class="secondary" onclick="clearForm()">Clear</button>
+        </div>
+
+        <p class="note">
+          Tip: A strong headline should answer “what does this company do?” and “what do I get?” quickly.
+        </p>
+      </div>
+
+      <div class="output-card">
+        <h2>Generated headlines</h2>
+        <div id="output" class="output">Your headline options will appear here.</div>
+      </div>
+    </section>
+
+    <section class="info">
+      <div class="info-card">
+        <h3>Use action words</h3>
+        <p>Start with what the visitor can do: get, build, sell, receive, find, launch, automate, or grow.</p>
+      </div>
+
+      <div class="info-card">
+        <h3>Make the result clear</h3>
+        <p>Avoid clever but vague copy. Show the concrete outcome the visitor gets.</p>
+      </div>
+
+      <div class="info-card">
+        <h3>Add specifics</h3>
+        <p>Numbers, timeframes, and removed friction make the headline easier to understand.</p>
+      </div>
+    </section>
+
+    <p class="footer">Copyright © 2026 Ed Umbao. All rights reserved.</p>
+  </main>
+
+  <script>
+    function getValue(id) {
+      return document.getElementById(id).value.trim();
+    }
+
+    function clean(text) {
+      return text.replace(/\.$/, "");
+    }
+
+    function generateHeadlines() {
+      const oldHeadline = getValue("oldHeadline");
+      const audience = clean(getValue("audience"));
+      const product = clean(getValue("product"));
+      const action = clean(getValue("action"));
+      const benefit = clean(getValue("benefit"));
+      const proof = clean(getValue("proof"));
+      const friction = clean(getValue("friction"));
+      const tone = getValue("tone");
+
+      if (!action || !benefit) {
+        alert("Please fill in at least the action and benefit fields.");
+        return;
+      }
+
+      const proofPhrase = proof ? ` ${proof}` : "";
+      const frictionPhrase = friction ? ` No ${friction.replace(/^no\s+/i, "")}.` : "";
+      const audiencePhrase = audience ? ` for ${audience}` : "";
+      const productPhrase = product ? ` with ${product}` : "";
+
+      let toneNote = "";
+      if (tone === "bold") toneNote = "Use this when you want a stronger, more direct sales angle.";
+      if (tone === "calm") toneNote = "Use this when the buyer needs trust, relief, or reassurance.";
+      if (tone === "premium") toneNote = "Use this when the offer needs to feel higher-value and polished.";
+      if (tone === "clear") toneNote = "Use this when clarity matters more than clever wording.";
+
+      const headline1 = `${capitalize(action)}${productPhrase} and ${benefit}${proofPhrase}.`;
+      const headline2 = `${capitalize(action)}${proofPhrase} and ${benefit}.${frictionPhrase}`;
+      const headline3 = `${capitalize(action)}${audiencePhrase} so you can ${benefit}.`;
+      const headline4 = `${capitalize(action)}. ${capitalize(benefit)}${proofPhrase}.${frictionPhrase}`;
+      const headline5 = `${capitalize(action)}${audiencePhrase}. ${capitalize(benefit)} without the usual friction.`;
+
+      const output = `Current headline:
+${oldHeadline || "Not provided"}
+
+Action → Benefit formula:
+Action: ${action}
+Benefit: ${benefit}
+Specificity: ${proof || "Add a number, timeframe, proof point, or friction removed if available."}
+
+Headline options:
+
+1. ${headline1}
+
+2. ${headline2}
+
+3. ${headline3}
+
+4. ${headline4}
+
+5. ${headline5}
+
+Quick review:
+- Can a first-time visitor understand what is being offered?
+- Does the headline say what the visitor does?
+- Does it explain what the visitor gets?
+- Is there a number, timeframe, proof point, or friction removed?
+- Is the wording clear enough to say out loud?
+
+Tone note:
+${toneNote}`;
+
+      document.getElementById("output").textContent = output;
+    }
+
+    function capitalize(text) {
+      if (!text) return "";
+      return text.charAt(0).toUpperCase() + text.slice(1);
+    }
+
+    function copyOutput() {
+      const output = document.getElementById("output").textContent;
+
+      if (!output || output === "Your headline options will appear here.") {
+        alert("Generate headlines first.");
+        return;
+      }
+
+      navigator.clipboard.writeText(output);
+      alert("Headline options copied!");
+    }
+
+    function clearForm() {
+      document.getElementById("oldHeadline").value = "";
+      document.getElementById("audience").value = "";
+      document.getElementById("product").value = "";
+      document.getElementById("action").value = "";
+      document.getElementById("benefit").value = "";
+      document.getElementById("proof").value = "";
+      document.getElementById("friction").value = "";
+      document.getElementById("tone").value = "clear";
+      document.getElementById("output").textContent = "Your headline options will appear here.";
+    }
+  </script>
+</body>
+</html>
