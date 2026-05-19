@@ -588,6 +588,96 @@
             <span class="trust-pill">No paid tool needed</span>
             <span class="trust-pill">Copy-paste output</span>
           </div>
+          <div class="share-widget" aria-label="Share this headline creator">
+  <span class="share-label">Share this</span>
+
+  <div class="share-buttons">
+    <button type="button" class="share-btn copy" id="copyPageLink">
+      <span class="share-icon">🔗</span>
+      Copy Link
+    </button>
+
+    <button type="button" class="share-btn embed" id="copyEmbedCode">
+      <span class="share-icon">&lt;/&gt;</span>
+      Embed
+    </button>
+
+    <a class="share-btn x" id="shareOnX" href="#" target="_blank" rel="noopener noreferrer">
+      <span class="share-icon">𝕏</span>
+      X
+    </a>
+
+    <a class="share-btn facebook" id="shareOnFacebook" href="#" target="_blank" rel="noopener noreferrer">
+      <span class="share-icon">f</span>
+      Facebook
+    </a>
+
+    <div class="share-more-wrap">
+      <button type="button" class="share-btn more" id="shareMoreButton" aria-expanded="false" aria-controls="shareMoreMenu">
+        <span class="share-icon">⋯</span>
+        More
+      </button>
+
+      <div class="share-menu" id="shareMoreMenu" hidden>
+        <div class="share-menu-title">More sharing options</div>
+
+        <div class="share-menu-grid">
+          <button type="button" id="nativeShare">
+            <span>📲</span>
+            Nearby / Native Share
+          </button>
+
+          <a id="shareWhatsApp" href="#" target="_blank" rel="noopener noreferrer">
+            <span>🟢</span>
+            WhatsApp
+          </a>
+
+          <a id="shareTelegram" href="#" target="_blank" rel="noopener noreferrer">
+            <span>✈️</span>
+            Telegram
+          </a>
+
+          <a id="shareGmail" href="#" target="_blank" rel="noopener noreferrer">
+            <span>✉️</span>
+            Gmail
+          </a>
+
+          <a id="shareOutlook" href="#" target="_blank" rel="noopener noreferrer">
+            <span>📧</span>
+            Outlook
+          </a>
+
+          <a id="shareTeams" href="#" target="_blank" rel="noopener noreferrer">
+            <span>👥</span>
+            Microsoft Teams
+          </a>
+
+          <button type="button" data-copy-open data-open-url="https://app.slack.com/client" data-app-name="Slack">
+            <span>💬</span>
+            Slack
+          </button>
+
+          <button type="button" data-copy-open data-open-url="https://discord.com/channels/@me" data-app-name="Discord">
+            <span>🎮</span>
+            Discord
+          </button>
+
+          <button type="button" data-copy-open data-open-url="https://github.com/" data-app-name="GitHub">
+            <span>🐙</span>
+            GitHub
+          </button>
+
+          <button type="button" data-copy-open data-open-url="https://zoom.us/" data-app-name="Zoom">
+            <span>🎥</span>
+            Zoom
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <span class="share-message" id="shareMessage" role="status" aria-live="polite"></span>
+</div>
         </div>
 
         <div class="preview-card">
@@ -925,5 +1015,215 @@ ${toneNote}`;
       document.getElementById("output").textContent = "Your headline options will appear here.";
     }
   </script>
+  <script>
+  (function () {
+    function getShareUrl() {
+      const canonical = document.querySelector('link[rel="canonical"]');
+      return canonical ? canonical.href : window.location.href.split('#')[0];
+    }
+
+    function showShareMessage(message) {
+      const messageBox = document.getElementById('shareMessage');
+      if (!messageBox) return;
+
+      messageBox.textContent = message;
+
+      window.clearTimeout(window.shareMessageTimer);
+      window.shareMessageTimer = window.setTimeout(function () {
+        messageBox.textContent = '';
+      }, 2600);
+    }
+
+    async function copyText(text, successMessage) {
+      try {
+        await navigator.clipboard.writeText(text);
+        showShareMessage(successMessage);
+      } catch (error) {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.setAttribute('readonly', '');
+        textArea.style.position = 'absolute';
+        textArea.style.left = '-9999px';
+        document.body.appendChild(textArea);
+        textArea.select();
+
+        try {
+          document.execCommand('copy');
+          showShareMessage(successMessage);
+        } catch (copyError) {
+          showShareMessage('Copy failed. Please copy manually.');
+        }
+
+        document.body.removeChild(textArea);
+      }
+    }
+
+    function closeShareMenu() {
+      const menu = document.getElementById('shareMoreMenu');
+      const button = document.getElementById('shareMoreButton');
+
+      if (menu) menu.hidden = true;
+      if (button) button.setAttribute('aria-expanded', 'false');
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const pageUrl = getShareUrl();
+      const pageTitle = document.title || 'Benefit Headline Creator';
+      const pageText = 'Try this free Benefit Headline Creator:';
+
+      const encodedUrl = encodeURIComponent(pageUrl);
+      const encodedTitle = encodeURIComponent(pageTitle);
+      const encodedText = encodeURIComponent(pageText + ' ' + pageUrl);
+
+      const copyLinkButton = document.getElementById('copyPageLink');
+      const embedButton = document.getElementById('copyEmbedCode');
+      const xLink = document.getElementById('shareOnX');
+      const facebookLink = document.getElementById('shareOnFacebook');
+
+      const moreButton = document.getElementById('shareMoreButton');
+      const moreMenu = document.getElementById('shareMoreMenu');
+      const nativeShareButton = document.getElementById('nativeShare');
+
+      const whatsAppLink = document.getElementById('shareWhatsApp');
+      const telegramLink = document.getElementById('shareTelegram');
+      const gmailLink = document.getElementById('shareGmail');
+      const outlookLink = document.getElementById('shareOutlook');
+      const teamsLink = document.getElementById('shareTeams');
+
+      if (copyLinkButton) {
+        copyLinkButton.addEventListener('click', function () {
+          copyText(pageUrl, 'Link copied.');
+        });
+      }
+
+      if (embedButton) {
+        embedButton.addEventListener('click', function () {
+          const safeTitle = pageTitle.replace(/"/g, '&quot;');
+
+          const embedCode =
+            '<iframe src="' +
+            pageUrl +
+            '" title="' +
+            safeTitle +
+            '" width="100%" height="700" style="border:0;" loading="lazy"></iframe>';
+
+          copyText(embedCode, 'Embed code copied.');
+        });
+      }
+
+      if (xLink) {
+        xLink.href =
+          'https://twitter.com/intent/tweet?url=' +
+          encodedUrl +
+          '&text=' +
+          encodedTitle;
+      }
+
+      if (facebookLink) {
+        facebookLink.href =
+          'https://www.facebook.com/sharer/sharer.php?u=' +
+          encodedUrl;
+      }
+
+      if (whatsAppLink) {
+        whatsAppLink.href =
+          'https://wa.me/?text=' +
+          encodedText;
+      }
+
+      if (telegramLink) {
+        telegramLink.href =
+          'https://t.me/share/url?url=' +
+          encodedUrl +
+          '&text=' +
+          encodeURIComponent(pageText);
+      }
+
+      if (gmailLink) {
+        gmailLink.href =
+          'https://mail.google.com/mail/?view=cm&fs=1&su=' +
+          encodedTitle +
+          '&body=' +
+          encodedText;
+      }
+
+      if (outlookLink) {
+        outlookLink.href =
+          'https://outlook.live.com/mail/0/deeplink/compose?subject=' +
+          encodedTitle +
+          '&body=' +
+          encodedText;
+      }
+
+      if (teamsLink) {
+        teamsLink.href =
+          'https://teams.microsoft.com/share?href=' +
+          encodedUrl +
+          '&msgText=' +
+          encodeURIComponent(pageText);
+      }
+
+      if (moreButton && moreMenu) {
+        moreButton.addEventListener('click', function (event) {
+          event.stopPropagation();
+
+          const isOpen = !moreMenu.hidden;
+          moreMenu.hidden = isOpen;
+          moreButton.setAttribute('aria-expanded', String(!isOpen));
+        });
+      }
+
+      if (nativeShareButton) {
+        nativeShareButton.addEventListener('click', async function () {
+          if (navigator.share) {
+            try {
+              await navigator.share({
+                title: pageTitle,
+                text: pageText,
+                url: pageUrl
+              });
+
+              closeShareMenu();
+            } catch (error) {
+              // User cancelled the native share dialog.
+            }
+          } else {
+            copyText(pageUrl, 'Native sharing is not available. Link copied instead.');
+            closeShareMenu();
+          }
+        });
+      }
+
+      document.querySelectorAll('[data-copy-open]').forEach(function (button) {
+        button.addEventListener('click', async function () {
+          const appName = button.getAttribute('data-app-name') || 'this app';
+          const openUrl = button.getAttribute('data-open-url');
+
+          await copyText(pageUrl, 'Link copied. Paste it in ' + appName + '.');
+
+          if (openUrl) {
+            window.open(openUrl, '_blank', 'noopener,noreferrer');
+          }
+
+          closeShareMenu();
+        });
+      });
+
+      document.addEventListener('click', function (event) {
+        if (!moreMenu || !moreButton) return;
+
+        if (!moreMenu.contains(event.target) && !moreButton.contains(event.target)) {
+          closeShareMenu();
+        }
+      });
+
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+          closeShareMenu();
+        }
+      });
+    });
+  })();
+</script>
 </body>
 </html>
